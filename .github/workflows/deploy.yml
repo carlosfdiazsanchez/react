@@ -26,7 +26,7 @@ jobs:
             git reset --hard origin/main
 
             # Limpiar contenedores e imágenes anteriores de manera segura
-            docker compose down --remove-orphans
+            docker compose down
             docker compose build --no-cache
 
             # Levantar contenedores
