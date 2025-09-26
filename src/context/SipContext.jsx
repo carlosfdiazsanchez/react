@@ -87,7 +87,7 @@ export function SipProvider({ children }) {
     if (incomingSession) {
       incomingSession.answer({ mediaConstraints: { audio: true, video: false } });
 
-    fetch('http://localhost:3000/answer', {
+    fetch('https://node.ridinn.com/answer', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ channelId: incomingSession.id }) // Ajusta el nombre del campo si es necesario
