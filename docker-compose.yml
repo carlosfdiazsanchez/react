@@ -7,3 +7,5 @@ services:
     ports:
       - "3001:80"
     restart: unless-stopped
+    volumes:
+      - ./dist:/app/dist
