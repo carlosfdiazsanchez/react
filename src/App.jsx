@@ -22,7 +22,7 @@ function App() {
       const configuration = {
         sockets: [socket],
         uri: `sip:${USER}@${DOMAIN}`,
-        contact_uri: `sip:${USER}@pbx.ridinn.com;transport=ws`,
+        contact_uri: `sip:${USER}@${DOMAIN}`,
         authorization_user: AUTH_USER,
         password: PASS,
         display_name: DISPLAY,
