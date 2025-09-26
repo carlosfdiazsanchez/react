@@ -1,6 +1,6 @@
 // Utilidad para llamadas a la API backend
 export async function callApi(path, body) {
-  const res = await fetch(`http://localhost:3000${path}`, {
+  const res = await fetch(`https://node.ridinn.com${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)

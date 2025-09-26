@@ -19,13 +19,13 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            cd /var/www/react
+            cd /var/www/pbx.ridinn.com
 
             # Asegurarse de estar en la rama correcta
             git fetch origin main
             git reset --hard origin/main
 
-            # Instalar dependencias y generar build de React localmente
+            # Instalar dependencias y generar build de React para pbx.ridinn.com
             npm ci --include=dev
             npm run build
 

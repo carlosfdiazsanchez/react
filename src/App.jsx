@@ -5,11 +5,11 @@ import JsSIP from 'jssip';
 // Si el navegador corre en el host que ejecuta Docker, usar host.docker.internal permite
 // que el contenedor Asterisk vea la dirección del host en lugar de una IP de la red bridge (172.19.x.x).
 // Para producción usa un dominio público y WSS.
-const WS_URI = 'ws://host.docker.internal:8088/ws';
+const WS_URI = 'wss://pbx.ridinn.com/ws';
 const USER = '2002';
 const AUTH_USER = '2002';
-// Para pruebas locales desde el host con Docker usa host.docker.internal
-const DOMAIN = 'host.docker.internal:8088';
+// Dominio público para producción
+const DOMAIN = 'pbx.ridinn.com';
 const PASS = 'unaclavemuysegura';
 const DISPLAY = '2002';
 
@@ -38,9 +38,9 @@ function App() {
 
       const configuration = {
         sockets: [socket],
-        uri: `sip:${USER}@${DOMAIN}`,
-  // Forzar Contact (incluye puerto y transporte) para que Asterisk reciba un host/puerto alcanzable
-  contact_uri: `sip:${USER}@host.docker.internal:8088;transport=ws`,
+    uri: `sip:${USER}@${DOMAIN}`,
+    // Forzar Contact (incluye puerto y transporte) para que Asterisk reciba un host/puerto alcanzable
+    contact_uri: `sip:${USER}@pbx.ridinn.com;transport=ws`,
         authorization_user: AUTH_USER,
         password: PASS,
         display_name: DISPLAY,
