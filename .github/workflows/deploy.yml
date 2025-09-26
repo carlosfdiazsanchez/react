@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            cd /var/www/pbx.ridinn.com
+            cd /var/www/react
 
             # Asegurarse de estar en la rama correcta
             git fetch origin main
