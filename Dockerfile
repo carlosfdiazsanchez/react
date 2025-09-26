@@ -20,9 +20,5 @@ FROM nginx:stable-alpine AS production
 ENV NODE_ENV=production
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copiar configuración nginx para SPA (fallback a index.html)
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
