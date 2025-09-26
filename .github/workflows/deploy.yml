@@ -12,26 +12,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-- name: Deploy to Droplet via SSH
-  uses: appleboy/ssh-action@v1.0.3
-  with:
-    host: ${{ secrets.DROPLET_IP }}
-    username: ${{ secrets.DROPLET_USER }}
-    key: ${{ secrets.DROPLET_SSH_KEY }}
-    script: |
-      cd /var/www/react
+    - name: Deploy to Droplet via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USER }}
+        key: ${{ secrets.DROPLET_SSH_KEY }}
+        script: |
+          cd /var/www/react
 
-      # Asegurarse de estar en la rama correcta
-      git fetch origin main
-      git reset --hard origin/main
+          # Asegurarse de estar en la rama correcta
+          git fetch origin main
+          git reset --hard origin/main
 
-      # Limpiar contenedores e imágenes anteriores de manera segura
-      docker compose down --remove-orphans
-      docker compose build --no-cache
+          # Limpiar contenedores e imágenes anteriores de manera segura
+          docker compose down --remove-orphans
+          docker compose build --no-cache
 
-      # Levantar contenedores
-      docker compose up -d
+          # Levantar contenedores
+          docker compose up -d
 
-      # Limpiar recursos no usados opcionales (volúmenes, imágenes no referenciadas)
-      docker system prune -f
+          # Limpiar recursos no usados opcionales (volúmenes, imágenes no referenciadas)
+          docker system prune -f
 
