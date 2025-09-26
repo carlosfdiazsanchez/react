@@ -26,12 +26,7 @@ jobs:
             git reset --hard origin/main
 
             # Limpiar contenedores e imágenes anteriores de manera segura
-            docker compose down
-            docker compose build --no-cache
-
-            # Levantar contenedores
-            docker compose up -d
-
-            # Limpiar recursos no usados opcionales (volúmenes, imágenes no referenciadas)
-            docker system prune -f
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d
 
