@@ -53,6 +53,28 @@ export function SipProvider({ children }) {
       console.log('La llamada falló o fue rechazada (failed):', e);
       handleEnded();
     });
+    incomingSession.on('accepted', () => {
+      console.log('La llamada fue aceptada (accepted).');
+    });
+    incomingSession.on('progress', () => {
+      console.log('La llamada está en progreso (progress).');
+    });
+    incomingSession.on('peerconnection', (e) => {
+      console.log('Conexión peer-to-peer establecida (peerconnection).');
+
+      const audioElement = document.getElementById('remoteAudio');
+      if (audioElement) {
+        audioElement.autoplay = true;
+        audioElement.controls = false;
+        audioElement.muted = false;
+        audioElement.volume = 1.0;
+        audioElement.preload = "auto";
+        e.peerconnection.ontrack = ({ streams: [stream] }) => {
+          audioElement.srcObject = stream;
+          audioElement.play().catch(err => console.error('Error al reproducir el audio remoto:', err));
+        };
+      }
+    });
     return () => {
       incomingSession.off('ended', handleEnded);
       incomingSession.off('failed', handleEnded);
@@ -60,8 +82,23 @@ export function SipProvider({ children }) {
   }, [incomingSession]);
 
   const acceptCall = useCallback(() => {
+    console.log('INTENTANDO ACEPTAR LA LLAMADA');
+    console.log(incomingSession);
     if (incomingSession) {
       incomingSession.answer({ mediaConstraints: { audio: true, video: false } });
+
+    fetch('http://localhost:3000/answer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ channelId: incomingSession.id }) // Ajusta el nombre del campo si es necesario
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log('Respuesta del backend /answer:', data);
+    })
+    .catch(err => {
+      console.error('Error enviando /answer al backend:', err);
+    });
     }
   }, [incomingSession]);
 
