@@ -1,0 +1,30 @@
+name: CI/CD Node App
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to Droplet via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            # Entrar a la carpeta de la app
+            cd /var/www/react
+
+            # Traer los últimos cambios desde GitHub
+            git pull origin main
+
+            # Construir la imagen y levantar el contenedor
+            docker-compose build --no-cache
+            docker-compose up -d
