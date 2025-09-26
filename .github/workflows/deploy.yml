@@ -19,12 +19,7 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            # Entrar a la carpeta de la app
             cd /var/www/react
-
-            # Traer los últimos cambios desde GitHub
             git pull origin main
-
-            # Construir la imagen y levantar el contenedor
             docker-compose build --no-cache
             docker-compose up -d
